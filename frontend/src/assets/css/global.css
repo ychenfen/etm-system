@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  font-family: 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.page-container {
+  padding: 20px;
+}
+
+.search-bar {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-bar .el-input,
+.search-bar .el-select {
+  width: 200px;
+}
+
+.table-toolbar {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-card .stat-number {
+  font-size: 32px;
+  font-weight: bold;
+  color: #409EFF;
+}
+
+.stat-card .stat-label {
+  font-size: 14px;
+  color: #909399;
+  margin-top: 8px;
+}
+
+.el-card {
+  margin-bottom: 15px;
+}
+
+.dialog-footer {
+  text-align: right;
+}
