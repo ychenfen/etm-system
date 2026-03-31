@@ -146,3 +146,50 @@ CREATE TABLE IF NOT EXISTS notice (
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 聘用审批表（三级审批流程）
+CREATE TABLE IF NOT EXISTS approval (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id BIGINT NOT NULL,
+    approval_no VARCHAR(50),
+    department_id BIGINT,
+    start_date DATE,
+    end_date DATE,
+    proposed_salary DECIMAL(10,2),
+    apply_reason VARCHAR(500),
+    current_node VARCHAR(30) DEFAULT 'college_leader',
+    approval_status VARCHAR(20) DEFAULT 'PENDING',
+    college_status VARCHAR(20),
+    college_remark VARCHAR(500),
+    college_by VARCHAR(50),
+    college_time TIMESTAMP,
+    hr_salary_status VARCHAR(20),
+    hr_salary_remark VARCHAR(500),
+    hr_salary_by VARCHAR(50),
+    hr_salary_time TIMESTAMP,
+    hr_director_status VARCHAR(20),
+    hr_director_remark VARCHAR(500),
+    hr_director_by VARCHAR(50),
+    hr_director_time TIMESTAMP,
+    deleted INT NOT NULL DEFAULT 0,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 聘用合同表
+CREATE TABLE IF NOT EXISTS contract (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id BIGINT NOT NULL,
+    department_id BIGINT,
+    contract_no VARCHAR(50),
+    approval_id BIGINT,
+    start_date DATE,
+    end_date DATE,
+    salary_standard DECIMAL(10,2),
+    contract_status VARCHAR(20) DEFAULT 'UNSIGNED',
+    teacher_sign_time TIMESTAMP,
+    school_sign_time TIMESTAMP,
+    deleted INT NOT NULL DEFAULT 0,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

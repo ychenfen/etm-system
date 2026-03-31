@@ -88,6 +88,18 @@ const routes = [
         meta: { title: '我的评价', icon: 'el-icon-star-off', roles: ['TEACHER'] }
       },
       {
+        path: 'approval',
+        name: 'Approval',
+        component: () => import('@/views/approval/index.vue'),
+        meta: { title: '聘用审批', icon: 'el-icon-s-check', roles: ['ADMIN', 'DEPARTMENT'] }
+      },
+      {
+        path: 'contract',
+        name: 'Contract',
+        component: () => import('@/views/contract/index.vue'),
+        meta: { title: '聘用合同', icon: 'el-icon-document', roles: ['ADMIN', 'DEPARTMENT'] }
+      },
+      {
         path: 'profile',
         name: 'Profile',
         component: () => import('@/views/profile/index.vue'),

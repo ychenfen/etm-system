@@ -437,3 +437,39 @@ WHERE NOT EXISTS (
     SELECT 1 FROM notice
     WHERE title = '关于本学期教学质量检查的通知'
 );
+
+-- 聘用审批演示数据
+INSERT INTO approval (teacher_id, approval_no, department_id, start_date, end_date, proposed_salary, apply_reason,
+    current_node, approval_status,
+    college_status, college_remark, college_by, college_time,
+    hr_salary_status, hr_salary_remark, hr_salary_by, hr_salary_time,
+    hr_director_status, hr_director_remark, hr_director_by, hr_director_time)
+SELECT 1, 'APR20260001', 1, '2026-03-01', '2026-08-31', 150.00, '拟聘为计算机学院外聘讲师，承担数据结构课程教学',
+    'finished', 'APPROVED',
+    'APPROVED', '同意聘用', '李院长', '2026-01-10 10:00:00',
+    'APPROVED', '薪酬标准符合规定', '王薪酬', '2026-01-11 14:00:00',
+    'APPROVED', '同意，请办理聘用手续', '张处长', '2026-01-12 09:30:00'
+WHERE NOT EXISTS (SELECT 1 FROM approval WHERE approval_no = 'APR20260001');
+
+INSERT INTO approval (teacher_id, approval_no, department_id, start_date, end_date, proposed_salary, apply_reason,
+    current_node, approval_status,
+    college_status, college_remark, college_by, college_time)
+SELECT 2, 'APR20260002', 2, '2026-03-01', '2027-02-28', 180.00, '拟聘为商学院外聘副教授，承担市场营销课程教学',
+    'hr_salary', 'PENDING',
+    'APPROVED', '人员符合要求，同意推荐', '陈院长', '2026-01-15 11:00:00',
+    NULL, NULL, NULL, NULL
+WHERE NOT EXISTS (SELECT 1 FROM approval WHERE approval_no = 'APR20260002');
+
+INSERT INTO approval (teacher_id, approval_no, department_id, start_date, end_date, proposed_salary, apply_reason,
+    current_node, approval_status)
+SELECT 3, 'APR20260003', 3, '2026-04-01', '2026-12-31', 120.00, '拟聘为文学院外聘讲师，承担现代文学课程',
+    'college_leader', 'PENDING',
+    NULL, NULL, NULL, NULL
+WHERE NOT EXISTS (SELECT 1 FROM approval WHERE approval_no = 'APR20260003');
+
+-- 聘用合同演示数据（对应已通过的审批 APR20260001）
+INSERT INTO contract (teacher_id, department_id, contract_no, start_date, end_date, salary_standard,
+    contract_status, teacher_sign_time, school_sign_time)
+SELECT 1, 1, 'CTR20260001', '2026-03-01', '2026-08-31', 150.00,
+    'SIGNED', '2026-01-14 16:00:00', '2026-01-15 10:00:00'
+WHERE NOT EXISTS (SELECT 1 FROM contract WHERE contract_no = 'CTR20260001');

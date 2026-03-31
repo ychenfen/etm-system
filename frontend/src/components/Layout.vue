@@ -61,6 +61,14 @@
           <i class="el-icon-star-off"></i>
           <span slot="title">我的评价</span>
         </el-menu-item>
+        <el-menu-item index="/approval" v-if="isAdmin || isDept">
+          <i class="el-icon-s-check"></i>
+          <span slot="title">聘用审批</span>
+        </el-menu-item>
+        <el-menu-item index="/contract" v-if="isAdmin || isDept">
+          <i class="el-icon-document"></i>
+          <span slot="title">聘用合同</span>
+        </el-menu-item>
         <el-menu-item index="/user" v-if="isAdmin">
           <i class="el-icon-s-custom"></i>
           <span slot="title">用户管理</span>
