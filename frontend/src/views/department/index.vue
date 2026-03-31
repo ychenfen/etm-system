@@ -6,7 +6,7 @@
         <el-button type="primary" icon="el-icon-search" @click="loadData">搜索</el-button>
         <el-button type="success" icon="el-icon-plus" @click="openDialog(null)">新增院系</el-button>
       </div>
-      <el-table :data="tableData" border stripe v-loading="loading">
+      <el-table :data="tableData" border stripe v-loading="loading" empty-text="暂无数据">
         <el-table-column prop="name" label="院系名称" width="200"></el-table-column>
         <el-table-column prop="code" label="编码" width="100"></el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="100"></el-table-column>
@@ -21,7 +21,7 @@
         </el-table-column>
       </el-table>
       <div class="pagination-bar">
-        <el-pagination background layout="total, prev, pager, next" :total="total" :page-size.sync="query.size" :current-page.sync="query.current" @current-change="loadData"></el-pagination>
+        <el-pagination background layout="total, sizes, prev, pager, next" :total="total" :page-size.sync="query.size" :current-page.sync="query.current" @current-change="loadData" @size-change="loadData"></el-pagination>
       </div>
     </el-card>
     <el-dialog :title="form.id ? '编辑院系' : '新增院系'" :visible.sync="dialogVisible" width="500px">

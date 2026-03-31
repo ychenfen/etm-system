@@ -1,11 +1,14 @@
 package com.etm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.etm.dto.Result;
 import com.etm.entity.Course;
 import com.etm.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/course")
@@ -21,6 +24,14 @@ public class CourseController {
                                      @RequestParam(required = false) Long departmentId,
                                      @RequestParam(required = false) Long teacherId) {
         return Result.success(courseService.pageList(current, size, keyword, departmentId, teacherId));
+    }
+
+    @GetMapping("/list")
+    public Result<List<Course>> list(@RequestParam(required = false) Long teacherId) {
+        LambdaQueryWrapper<Course> wrapper = new LambdaQueryWrapper<>();
+        if (teacherId != null) wrapper.eq(Course::getTeacherId, teacherId);
+        wrapper.orderByAsc(Course::getName);
+        return Result.success(courseService.list(wrapper));
     }
 
     @GetMapping("/{id}")

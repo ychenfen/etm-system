@@ -59,6 +59,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     public void approve(Long id) {
         Teacher teacher = this.getById(id);
         if (teacher == null) throw new RuntimeException("教师不存在");
+        if (!"PENDING".equals(teacher.getHireStatus())) {
+            throw new RuntimeException("只有待审核状态的教师才能审核通过");
+        }
         teacher.setHireStatus("APPROVED");
         this.updateById(teacher);
     }
@@ -67,6 +70,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     public void reject(Long id) {
         Teacher teacher = this.getById(id);
         if (teacher == null) throw new RuntimeException("教师不存在");
+        if (!"PENDING".equals(teacher.getHireStatus())) {
+            throw new RuntimeException("只有待审核状态的教师才能拒绝");
+        }
         teacher.setHireStatus("REJECTED");
         this.updateById(teacher);
     }

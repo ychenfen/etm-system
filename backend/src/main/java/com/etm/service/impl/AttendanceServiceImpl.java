@@ -24,7 +24,7 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
     private CourseMapper courseMapper;
 
     @Override
-    public Page<Attendance> pageList(int current, int size, Long teacherId, Long courseId, String status) {
+    public Page<Attendance> pageList(int current, int size, Long teacherId, Long courseId, String status, String month) {
         LambdaQueryWrapper<Attendance> wrapper = new LambdaQueryWrapper<>();
         if (teacherId != null) {
             wrapper.eq(Attendance::getTeacherId, teacherId);
@@ -34,6 +34,10 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
         }
         if (StringUtils.hasText(status)) {
             wrapper.eq(Attendance::getStatus, status);
+        }
+        if (StringUtils.hasText(month)) {
+            // H2 兼容写法：按年月前缀匹配
+            wrapper.apply("CAST(attendance_date AS VARCHAR) LIKE CONCAT({0}, '%')", month);
         }
         wrapper.orderByDesc(Attendance::getAttendanceDate);
         Page<Attendance> page = this.page(new Page<>(current, size), wrapper);

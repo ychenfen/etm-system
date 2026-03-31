@@ -14,9 +14,10 @@
         </el-select>
         <el-button type="primary" icon="el-icon-search" @click="loadData">搜索</el-button>
         <el-button type="success" icon="el-icon-plus" @click="openDialog(null)">新增教师</el-button>
+        <el-button type="warning" icon="el-icon-download" @click="handleExport">导出Excel</el-button>
       </div>
 
-      <el-table :data="tableData" border stripe v-loading="loading">
+      <el-table :data="tableData" border stripe v-loading="loading" empty-text="暂无数据">
         <el-table-column prop="name" label="姓名" width="90"></el-table-column>
         <el-table-column prop="gender" label="性别" width="60"></el-table-column>
         <el-table-column prop="phone" label="电话" width="120"></el-table-column>
@@ -112,7 +113,7 @@
 </template>
 
 <script>
-import { getTeacherPage, addTeacher, updateTeacher, deleteTeacher, approveTeacher, rejectTeacher, getDeptList } from '@/api'
+import { getTeacherPage, addTeacher, updateTeacher, deleteTeacher, approveTeacher, rejectTeacher, getDeptList, exportTeacher } from '@/api'
 
 export default {
   name: 'Teacher',
@@ -176,6 +177,16 @@ export default {
       this.$confirm('确定拒绝该教师？', '提示', { type: 'warning' }).then(() => {
         rejectTeacher(id).then(() => { this.$message.success('已拒绝'); this.loadData() })
       }).catch(() => {})
+    },
+    handleExport() {
+      exportTeacher().then(res => {
+        const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = '教师信息.xlsx'
+        link.click()
+        URL.revokeObjectURL(link.href)
+      })
     },
     handleDelete(id) {
       this.$confirm('确定删除该教师？', '提示', { type: 'warning' }).then(() => {

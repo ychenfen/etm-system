@@ -8,8 +8,9 @@
         </el-select>
         <el-button type="primary" icon="el-icon-search" @click="loadData">搜索</el-button>
         <el-button type="success" icon="el-icon-plus" @click="openDialog(null)">新增课程</el-button>
+        <el-button type="warning" icon="el-icon-download" @click="handleExport">导出Excel</el-button>
       </div>
-      <el-table :data="tableData" border stripe v-loading="loading">
+      <el-table :data="tableData" border stripe v-loading="loading" empty-text="暂无数据">
         <el-table-column prop="name" label="课程名称" width="150"></el-table-column>
         <el-table-column prop="code" label="课程编码" width="100"></el-table-column>
         <el-table-column prop="teacherName" label="授课教师" width="100"></el-table-column>
@@ -58,7 +59,7 @@
 </template>
 
 <script>
-import { getCoursePage, addCourse, updateCourse, deleteCourse, getDeptList, getTeacherList } from '@/api'
+import { getCoursePage, addCourse, updateCourse, deleteCourse, getDeptList, getTeacherList, exportCourse } from '@/api'
 export default {
   name: 'Course',
   data() {
@@ -73,6 +74,16 @@ export default {
     loadData() { this.loading = true; getCoursePage(this.query).then(r => { this.tableData = r.data.records; this.total = r.data.total }).finally(() => { this.loading = false }) },
     openDialog(row) { this.form = row ? { ...row } : { status: 'ACTIVE' }; this.dialogVisible = true; this.$nextTick(() => { this.$refs.form && this.$refs.form.clearValidate() }) },
     submitForm() { this.$refs.form.validate(v => { if (v) { (this.form.id ? updateCourse : addCourse)(this.form).then(() => { this.$message.success('操作成功'); this.dialogVisible = false; this.loadData() }) } }) },
+    handleExport() {
+      exportCourse().then(res => {
+        const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = '课程信息.xlsx'
+        link.click()
+        URL.revokeObjectURL(link.href)
+      })
+    },
     handleDelete(id) { this.$confirm('确定删除？', '提示', { type: 'warning' }).then(() => { deleteCourse(id).then(() => { this.$message.success('已删除'); this.loadData() }) }).catch(() => {}) }
   }
 }

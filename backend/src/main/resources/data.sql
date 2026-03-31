@@ -10,18 +10,18 @@ INSERT INTO department (name, code, contact_person, contact_phone, description) 
 
 -- 管理员账户 (密码: admin123)
 INSERT INTO sys_user (username, password, real_name, phone, email, role, status) VALUES
-('admin', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '系统管理员', '13800000000', 'admin@etm.edu.cn', 'ADMIN', 1);
+('admin', '0192023a7bbd73250516f069df18b500', '系统管理员', '13800000000', 'admin@etm.edu.cn', 'ADMIN', 1);
 
 -- 院系管理员
 INSERT INTO sys_user (username, password, real_name, phone, email, role, department_id, status) VALUES
-('cs_admin', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '张建国', '13800000011', 'zhangjg@etm.edu.cn', 'DEPARTMENT', 1, 1),
-('math_admin', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '李文华', '13800000012', 'liwh@etm.edu.cn', 'DEPARTMENT', 2, 1);
+('cs_admin', '0192023a7bbd73250516f069df18b500', '张建国', '13800000011', 'zhangjg@etm.edu.cn', 'DEPARTMENT', 1, 1),
+('math_admin', '0192023a7bbd73250516f069df18b500', '李文华', '13800000012', 'liwh@etm.edu.cn', 'DEPARTMENT', 2, 1);
 
 -- 外聘教师用户
 INSERT INTO sys_user (username, password, real_name, phone, email, role, department_id, status) VALUES
-('teacher01', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '刘伟', '13900000001', 'liuwei@example.com', 'TEACHER', 1, 1),
-('teacher02', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '陈静', '13900000002', 'chenjing@example.com', 'TEACHER', 1, 1),
-('teacher03', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', '王磊', '13900000003', 'wanglei@example.com', 'TEACHER', 2, 1);
+('teacher01', '0192023a7bbd73250516f069df18b500', '刘伟', '13900000001', 'liuwei@example.com', 'TEACHER', 1, 1),
+('teacher02', '0192023a7bbd73250516f069df18b500', '陈静', '13900000002', 'chenjing@example.com', 'TEACHER', 1, 1),
+('teacher03', '0192023a7bbd73250516f069df18b500', '王磊', '13900000003', 'wanglei@example.com', 'TEACHER', 2, 1);
 
 -- 外聘教师信息
 INSERT INTO teacher (user_id, name, gender, birth_date, id_card, phone, email, education, degree, title, work_unit, speciality, department_id, hire_status, hire_start_date, hire_end_date) VALUES
@@ -44,7 +44,7 @@ INSERT INTO attendance (teacher_id, course_id, attendance_date, check_in_time, c
 (2, 2, '2026-03-10', '2026-03-10 08:00:00', '2026-03-10 09:40:00', 'NORMAL', 2.0);
 
 -- 薪酬数据
-INSERT INTO salary (teacher_id, month, base_salary, total_hours, hour_rate, bonus, deduction, total_salary, status) VALUES
+INSERT INTO salary (teacher_id, "MONTH", base_salary, total_hours, hour_rate, bonus, deduction, total_salary, status) VALUES
 (1, '2026-03', 0, 32, 150.00, 500, 0, 5300.00, 'APPROVED'),
 (2, '2026-03', 0, 28, 180.00, 600, 0, 5640.00, 'PENDING');
 
@@ -55,5 +55,6 @@ INSERT INTO evaluation (teacher_id, course_id, semester, teaching_score, attenda
 
 -- 通知数据
 INSERT INTO notice (title, content, type, publisher) VALUES
-('关于2025-2026学年第二学期外聘教师聘用工作的通知', '各院系：\n\n根据学校教学工作安排，现启动2025-2026学年第二学期外聘教师聘用工作。请各院系根据教学需要，做好外聘教师的遴选和推荐工作。\n\n具体要求如下：\n1. 外聘教师须具有硕士及以上学历或中级及以上职称\n2. 聘用材料请于2026年2月28日前提交\n3. 联系人：教务处 李老师 电话：010-12345678', 'HIRE', '教务处'),
-('关于外聘教师薪酬发放的通知', '各位外聘教师：\n\n2026年3月份课时费将于4月15日前发放至个人银行账户，请注意查收。如有疑问请联系财务处。', 'SALARY', '财务处');
+('关于2025-2026学年第二学期外聘教师聘用工作的通知', '各院系：\n\n根据学校教学工作安排，现启动2025-2026学年第二学期外聘教师聘用工作。请各院系根据教学需要，做好外聘教师的遴选和推荐工作。\n\n具体要求如下：\n1. 外聘教师须具有硕士及以上学历或中级及以上职称\n2. 聘用材料请于2026年2月28日前提交\n3. 联系人：教务处 李老师 电话：010-12345678', 'ADMIN', '教务处'),
+('关于外聘教师薪酬发放的通知', '各位外聘教师：\n\n2026年3月份课时费将于4月15日前发放至个人银行账户，请注意查收。如有疑问请联系财务处。', 'ADMIN', '财务处'),
+('关于本学期教学质量检查的通知', '各院系、各位外聘教师：\n\n本学期期中教学质量检查将于4月中旬开展，请各位教师做好教学准备。检查内容包括教学计划执行、课堂教学质量、作业批改等。', 'TEACHING', '教务处');

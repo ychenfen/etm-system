@@ -24,6 +24,9 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   response => {
+    if (response.config.responseType === 'blob') {
+      return response
+    }
     const res = response.data
     if (res.code !== 200) {
       Message.error(res.message || '请求失败')
@@ -38,6 +41,9 @@ request.interceptors.response.use(
         localStorage.removeItem('token')
         localStorage.removeItem('userInfo')
         router.push('/login')
+      } else if (error.response.status === 403) {
+        Message.error('无权访问该资源')
+        router.push('/dashboard')
       } else {
         Message.error(error.response.data.message || '请求失败')
       }

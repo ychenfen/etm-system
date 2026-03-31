@@ -1,6 +1,7 @@
 package com.etm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.etm.annotation.RequireRole;
 import com.etm.dto.Result;
 import com.etm.entity.Salary;
 import com.etm.service.SalaryService;
@@ -28,30 +29,35 @@ public class SalaryController {
         return Result.success(salaryService.getById(id));
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PostMapping
     public Result<?> add(@RequestBody Salary salary) {
         salaryService.save(salary);
         return Result.success("添加成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PutMapping
     public Result<?> update(@RequestBody Salary salary) {
         salaryService.updateById(salary);
         return Result.success("更新成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id) {
         salaryService.removeById(id);
         return Result.success("删除成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PutMapping("/approve/{id}")
     public Result<?> approve(@PathVariable Long id) {
         salaryService.approve(id);
         return Result.success("审核通过", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PutMapping("/pay/{id}")
     public Result<?> pay(@PathVariable Long id) {
         salaryService.pay(id);

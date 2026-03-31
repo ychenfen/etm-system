@@ -41,6 +41,9 @@ public class SalaryServiceImpl extends ServiceImpl<SalaryMapper, Salary> impleme
     public void approve(Long id) {
         Salary salary = this.getById(id);
         if (salary == null) throw new RuntimeException("薪酬记录不存在");
+        if (!"PENDING".equals(salary.getStatus())) {
+            throw new RuntimeException("只有待审核状态的薪酬才能审核");
+        }
         salary.setStatus("APPROVED");
         this.updateById(salary);
     }
@@ -49,6 +52,9 @@ public class SalaryServiceImpl extends ServiceImpl<SalaryMapper, Salary> impleme
     public void pay(Long id) {
         Salary salary = this.getById(id);
         if (salary == null) throw new RuntimeException("薪酬记录不存在");
+        if (!"APPROVED".equals(salary.getStatus())) {
+            throw new RuntimeException("只有已审核状态的薪酬才能发放");
+        }
         salary.setStatus("PAID");
         salary.setPayDate(LocalDate.now());
         this.updateById(salary);

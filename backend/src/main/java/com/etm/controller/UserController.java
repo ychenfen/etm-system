@@ -1,6 +1,7 @@
 package com.etm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.etm.annotation.RequireRole;
 import com.etm.dto.Result;
 import com.etm.entity.User;
 import com.etm.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@RequireRole({"ADMIN"})
 public class UserController {
 
     @Autowired

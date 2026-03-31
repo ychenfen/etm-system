@@ -1,6 +1,7 @@
 package com.etm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.etm.annotation.RequireRole;
 import com.etm.dto.Result;
 import com.etm.entity.Evaluation;
 import com.etm.service.EvaluationService;
@@ -27,18 +28,21 @@ public class EvaluationController {
         return Result.success(evaluationService.getById(id));
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PostMapping
     public Result<?> add(@RequestBody Evaluation evaluation) {
         evaluationService.save(evaluation);
         return Result.success("添加成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PutMapping
     public Result<?> update(@RequestBody Evaluation evaluation) {
         evaluationService.updateById(evaluation);
         return Result.success("更新成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id) {
         evaluationService.removeById(id);

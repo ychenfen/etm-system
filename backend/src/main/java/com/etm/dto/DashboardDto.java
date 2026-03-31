@@ -11,7 +11,12 @@ public class DashboardDto {
     private long departmentCount;
     private long pendingHireCount;
     private long pendingSalaryCount;
+    private long attendanceCount;
+    private long normalAttendanceCount;
     private List<Map<String, Object>> departmentTeacherStats;
     private List<Map<String, Object>> monthlyAttendanceStats;
     private List<Map<String, Object>> hireStatusStats;
+    private List<Map<String, Object>> monthlySalaryStats;
+    private List<Map<String, Object>> recentNotices;
+    private List<Map<String, Object>> expiringTeachers;
 }

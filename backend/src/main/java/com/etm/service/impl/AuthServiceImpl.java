@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.etm.dto.LoginDto;
 import com.etm.entity.Department;
 import com.etm.entity.User;
+import com.etm.entity.Teacher;
 import com.etm.mapper.DepartmentMapper;
+import com.etm.mapper.TeacherMapper;
 import com.etm.mapper.UserMapper;
 import com.etm.service.AuthService;
 import com.etm.util.JwtUtil;
@@ -20,6 +22,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private DepartmentMapper departmentMapper;
+
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -42,12 +47,7 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
         user.setToken(token);
         user.setPassword(null);
-        if (user.getDepartmentId() != null) {
-            Department dept = departmentMapper.selectById(user.getDepartmentId());
-            if (dept != null) {
-                user.setDepartmentName(dept.getName());
-            }
-        }
+        populateUserExtra(user);
         return user;
     }
 
@@ -58,13 +58,26 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("用户不存在");
         }
         user.setPassword(null);
+        populateUserExtra(user);
+        return user;
+    }
+
+    private void populateUserExtra(User user) {
         if (user.getDepartmentId() != null) {
             Department dept = departmentMapper.selectById(user.getDepartmentId());
             if (dept != null) {
                 user.setDepartmentName(dept.getName());
             }
         }
-        return user;
+        // 如果是教师角色，查找关联的教师ID
+        if ("TEACHER".equals(user.getRole())) {
+            LambdaQueryWrapper<Teacher> tw = new LambdaQueryWrapper<>();
+            tw.eq(Teacher::getUserId, user.getId());
+            Teacher teacher = teacherMapper.selectOne(tw);
+            if (teacher != null) {
+                user.setTeacherId(teacher.getId());
+            }
+        }
     }
 
     @Override

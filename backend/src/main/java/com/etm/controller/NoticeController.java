@@ -1,6 +1,7 @@
 package com.etm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.etm.annotation.RequireRole;
 import com.etm.dto.Result;
 import com.etm.entity.Notice;
 import com.etm.service.NoticeService;
@@ -27,18 +28,21 @@ public class NoticeController {
         return Result.success(noticeService.getById(id));
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PostMapping
     public Result<?> add(@RequestBody Notice notice) {
         noticeService.save(notice);
         return Result.success("添加成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @PutMapping
     public Result<?> update(@RequestBody Notice notice) {
         noticeService.updateById(notice);
         return Result.success("更新成功", null);
     }
 
+    @RequireRole({"ADMIN", "DEPARTMENT"})
     @DeleteMapping("/{id}")
     public Result<?> delete(@PathVariable Long id) {
         noticeService.removeById(id);

@@ -13,6 +13,7 @@ public class Salary {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long teacherId;
+    @TableField("`month`")
     private String month;
     private BigDecimal baseSalary;
     private BigDecimal totalHours;

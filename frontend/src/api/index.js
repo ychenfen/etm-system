@@ -69,6 +69,9 @@ export function updateTeacher(data) {
 export function deleteTeacher(id) {
   return request({ url: `/teacher/${id}`, method: 'delete' })
 }
+export function getTeacherById(id) {
+  return request({ url: `/teacher/${id}`, method: 'get' })
+}
 export function approveTeacher(id) {
   return request({ url: `/teacher/approve/${id}`, method: 'put' })
 }
@@ -88,6 +91,9 @@ export function updateCourse(data) {
 }
 export function deleteCourse(id) {
   return request({ url: `/course/${id}`, method: 'delete' })
+}
+export function getCourseList(params) {
+  return request({ url: '/course/list', method: 'get', params })
 }
 
 // ========== 考勤管理 ==========
@@ -136,6 +142,23 @@ export function updateEval(data) {
 }
 export function deleteEval(id) {
   return request({ url: `/evaluation/${id}`, method: 'delete' })
+}
+
+// ========== 数据导出 ==========
+export function exportCourse() {
+  return request({ url: '/export/course', method: 'get', responseType: 'blob' })
+}
+export function exportTeacher() {
+  return request({ url: '/export/teacher', method: 'get', responseType: 'blob' })
+}
+export function exportAttendance() {
+  return request({ url: '/export/attendance', method: 'get', responseType: 'blob' })
+}
+export function exportSalary() {
+  return request({ url: '/export/salary', method: 'get', responseType: 'blob' })
+}
+export function exportEvaluation() {
+  return request({ url: '/export/evaluation', method: 'get', responseType: 'blob' })
 }
 
 // ========== 通知管理 ==========
