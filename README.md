@@ -41,6 +41,9 @@ mvn spring-boot:run
 ```
 后端默认运行在 http://localhost:8088/api
 
+说明：开发环境默认使用 `backend/data/` 下的本地 H2 文件库，数据会在重启后保留。
+如果你想重置为初始演示数据，删除 `backend/data/` 后重新启动后端即可。
+
 ### 前端启动
 ```bash
 cd frontend
