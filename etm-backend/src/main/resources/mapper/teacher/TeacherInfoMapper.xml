@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.etm.modules.teacher.mapper.TeacherInfoMapper">
+
+    <resultMap id="TeacherInfoResultMap" type="com.etm.modules.teacher.entity.TeacherInfo">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="teacher_no" property="teacherNo"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="birth_date" property="birthDate"/>
+        <result column="id_card" property="idCard"/>
+        <result column="nationality" property="nationality"/>
+        <result column="political_status" property="politicalStatus"/>
+        <result column="education" property="education"/>
+        <result column="degree" property="degree"/>
+        <result column="major" property="major"/>
+        <result column="graduate_school" property="graduateSchool"/>
+        <result column="graduate_date" property="graduateDate"/>
+        <result column="title" property="title"/>
+        <result column="title_level" property="titleLevel"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="emergency_contact" property="emergencyContact"/>
+        <result column="emergency_phone" property="emergencyPhone"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_account" property="bankAccount"/>
+        <result column="photo_url" property="photoUrl"/>
+        <result column="resume_url" property="resumeUrl"/>
+        <result column="specialty" property="specialty"/>
+        <result column="teacher_status" property="teacherStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <resultMap id="TeacherVOResultMap" type="com.etm.modules.teacher.vo.TeacherVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="teacher_no" property="teacherNo"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="birth_date" property="birthDate"/>
+        <result column="id_card" property="idCard"/>
+        <result column="nationality" property="nationality"/>
+        <result column="political_status" property="politicalStatus"/>
+        <result column="education" property="education"/>
+        <result column="degree" property="degree"/>
+        <result column="major" property="major"/>
+        <result column="graduate_school" property="graduateSchool"/>
+        <result column="graduate_date" property="graduateDate"/>
+        <result column="title" property="title"/>
+        <result column="title_level" property="titleLevel"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="emergency_contact" property="emergencyContact"/>
+        <result column="emergency_phone" property="emergencyPhone"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_account" property="bankAccount"/>
+        <result column="photo_url" property="photoUrl"/>
+        <result column="resume_url" property="resumeUrl"/>
+        <result column="specialty" property="specialty"/>
+        <result column="teacher_status" property="teacherStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="college_name" property="collegeName"/>
+    </resultMap>
+
+    <select id="selectTeacherPage" resultMap="TeacherInfoResultMap">
+        SELECT
+            t.*
+        FROM teacher_info t
+        WHERE t.deleted = 0
+        <if test="query.name != null and query.name != ''">
+            AND t.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.phone != null and query.phone != ''">
+            AND t.phone LIKE CONCAT('%', #{query.phone}, '%')
+        </if>
+        <if test="query.teacherStatus != null">
+            AND t.teacher_status = #{query.teacherStatus}
+        </if>
+        <if test="query.titleLevel != null">
+            AND t.title_level = #{query.titleLevel}
+        </if>
+        ORDER BY t.create_time DESC
+    </select>
+
+    <select id="selectTeacherDetail" resultMap="TeacherVOResultMap">
+        SELECT
+            t.*,
+            c.college_name
+        FROM teacher_info t
+        LEFT JOIN base_college c ON t.user_id = c.id
+        WHERE t.id = #{id} AND t.deleted = 0
+    </select>
+
+</mapper>
