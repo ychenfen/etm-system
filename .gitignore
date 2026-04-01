@@ -1,9 +1,36 @@
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
+.claude/
+
+# Python
 __pycache__/
 *.pyc
-.claude/
+
+# Node
 node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Java / Maven
 target/
+*.class
+
+# Local runtime data
+backend/data/
+*.mv.db
+*.trace.db
+
+# Temporary / generated artifacts
+temp_clone/
+screenshots/
+screenshots_v2/
+*.log
 cp/
 ls/
 generated_code/
+
+# Test helpers
+playwright-report/
+test-results/
